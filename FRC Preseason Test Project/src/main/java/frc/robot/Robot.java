@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -23,9 +24,22 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
  * directory.
  */
 public class Robot extends TimedRobot {
+  
+  private final int moduleID = 0;
+  private final PneumaticsModuleType moduleType = PneumaticsModuleType.CTREPCM;
+  private final int solonoidForwardID = 0;
+  private final int solonoidReverseID = 1;
+
   private final CANSparkMax m_test = new CANSparkMax(0, MotorType.kBrushless);
-  private final Compressor m_compressor = new Compressor(0, PneumaticsModuleType.CTREPCM); //Need Module ID (?)
-  private final Solenoid m_solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0); //Need channel solenoid is on also Module ID (?)
+  private final Compressor m_compressor = new Compressor(moduleID, moduleType); //Need Module ID (?)
+  
+  private final DoubleSolenoid m_solenoid = new DoubleSolenoid(
+    moduleID, 
+    moduleType, 
+    solonoidForwardID, 
+    solonoidReverseID
+  ); //Need channel solenoid is on also Module ID (?)
+
   private final PWMSparkMax m_leftDrive = new PWMSparkMax(0);
   private final PWMSparkMax m_rightDrive = new PWMSparkMax(1);
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftDrive, m_rightDrive);
